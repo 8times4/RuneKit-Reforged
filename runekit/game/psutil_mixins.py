@@ -38,8 +38,11 @@ class PsUtilNetStat(PsUtilBaseMixin):
     def fetch_world(self) -> Optional[int]:
         try:
             addrs = self.__get_connections()
+        except psutil.NoSuchProcess:
+            logger.debug("Game process pid %s no longer exists, cannot determine world", self.pid)
+            return None
         except psutil.AccessDenied:
-            logger.warning("Cannot get connections", exc_info=True)
+            logger.warning("Cannot get connections for pid %s", self.pid, exc_info=True)
             return None
 
         for conn in addrs:
@@ -81,8 +84,8 @@ class PsUtilNetStat(PsUtilBaseMixin):
     @Slot()
     def __update_world(self):
         new_world = self.fetch_world()
-        if new_world != self.__last_world:
-            logger.info("World hopped from %d to %d", self.__last_world, new_world)
+        if new_world is not None and new_world != self.__last_world:
+            logger.info("World hopped from %s to %s", self.__last_world, new_world)
             self.__last_world = new_world
             self.worldChanged.emit(new_world)
 

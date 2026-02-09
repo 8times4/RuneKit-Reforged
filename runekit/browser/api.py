@@ -193,7 +193,10 @@ class Alt1Api(QObject):
     game_activity_signal = Signal()
 
     def get_world(self):
-        return self.app.game_instance.get_world()
+        try:
+            return self.app.game_instance.get_world()
+        except Exception:
+            return -1
 
     world_change_signal = Signal()
     world = Property(bool, get_world, notify=world_change_signal)
