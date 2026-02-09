@@ -1,10 +1,10 @@
-# RuneKit
+# RuneKit Reforged
 
-**Alt1-compatible toolbox for RuneScape 3 on Linux and macOS.**
+**Alt1-compatible toolkit for RuneScape 3 on Linux.**
 
-RuneKit lets you run [Alt1 toolkit](https://runeapps.org/alt1) apps (clue solvers, XP meters, AFK timers, and more) alongside the **official RuneScape 3 client** on Linux and macOS. It works by reading your game screen through screenshots — it does not modify the game client.
+RuneKit Reforged lets you run [Alt1 toolkit](https://runeapps.org/alt1) apps (clue solvers, XP meters, AFK timers, and more) alongside the **official RuneScape 3 client** on Linux. It works by reading your game screen through screenshots — it does not modify the game client.
 
-Modernized fork of [whs/runekit](https://github.com/whs/runekit), updated to Python 3.11+, PySide6/Qt6, and current dependencies.
+Reforged from the original [whs/runekit](https://github.com/whs/runekit) which was abandoned in 2021. Rebuilt with Python 3.12, Qt6, and modern dependencies for a stable experience on current Linux distros.
 
 ---
 
@@ -12,12 +12,14 @@ Modernized fork of [whs/runekit](https://github.com/whs/runekit), updated to Pyt
 
 | Requirement | Details |
 |---|---|
-| **OS** | Linux (X11) or macOS 12+ |
+| **OS** | Linux (X11) |
 | **Python** | 3.11, 3.12, 3.13, or 3.14 |
 | **RuneScape 3** | Official client must be **running** before you start RuneKit |
-| **Display server** | X11 required on Linux (Wayland is not supported) |
+| **Display server** | X11 required (Wayland is not supported) |
 
-## Quick Start (Linux)
+---
+
+## Quick Start
 
 ### Step 1: Install system dependencies
 
@@ -50,11 +52,11 @@ export PATH="$HOME/.local/bin:$PATH"
 
 Then restart your terminal or run `source ~/.bashrc`.
 
-### Step 3: Clone and install RuneKit
+### Step 3: Clone and install RuneKit Reforged
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/runekit.git
-cd runekit
+git clone https://github.com/Jcapehart2/RuneKit-Reforged.git
+cd runekit-reforged
 poetry install
 ```
 
@@ -66,7 +68,7 @@ This creates a virtual environment and installs all Python dependencies. It may 
 poetry run make dev
 ```
 
-### Step 5: Launch RuneKit
+### Step 5: Launch
 
 1. **Start RuneScape 3 first** (the official client)
 2. Then run:
@@ -81,44 +83,13 @@ poetry run python main.py
 
 ### One-Click Launcher
 
-After setup, you can use the included launcher script:
+After initial setup, you can use the included launcher script:
 
 ```sh
 ./RuneKit.sh
 ```
 
-This script checks for dependencies and launches RuneKit. You can also double-click it in your file manager (make sure it's marked executable with `chmod +x RuneKit.sh`).
-
----
-
-## Quick Start (macOS)
-
-### Step 1: Install dependencies
-
-```sh
-brew install python pipx
-pipx install poetry
-```
-
-### Step 2: Clone and install
-
-```sh
-git clone https://github.com/YOUR_USERNAME/runekit.git
-cd runekit
-poetry install
-poetry run make dev
-```
-
-### Step 3: Launch
-
-1. Start RuneScape 3
-2. Run `poetry run python main.py`
-3. Grant permissions when prompted:
-   - **Accessibility** — for access to game window
-   - **Input Monitoring** — for hooking Alt+1 and idle detection
-   - **Screen Recording** — for capturing the game screen
-4. **Quit and restart RuneKit** after granting permissions
-5. The tray icon appears in the menu bar (top-right)
+This script checks for dependencies and launches RuneKit. You can double-click it in your file manager too (make sure it's marked executable with `chmod +x RuneKit.sh`).
 
 ---
 
@@ -171,12 +142,6 @@ poetry run python main.py https://runeapps.org/apps/alt1/afkscape/appconfig.json
 
 - This is normal — Qt WebEngine falls back to Vulkan rendering. Everything works fine.
 
-### macOS: "Screen Recording permission" error
-
-- Go to System Preferences > Security & Privacy > Privacy > Screen Recording
-- Enable RuneKit / Python
-- Quit and restart RuneKit
-
 ---
 
 ## Bug Reports
@@ -185,18 +150,17 @@ If something isn't working, please open a GitHub Issue and **include your log fi
 
 RuneKit automatically saves logs to:
 
-| OS | Log location |
-|---|---|
-| **Linux** | `~/.config/cupco.de/RuneKit/logs/runekit.log` |
-| **macOS** | `~/Library/Preferences/cupco.de/RuneKit/logs/runekit.log` |
+```
+~/.config/cupco.de/RuneKit/logs/runekit.log
+```
 
 Logs rotate automatically (3 files, 1MB each) so they won't fill your disk.
 
 **To submit a bug report:**
 
 1. Reproduce the issue
-2. Find your log file (see paths above)
-3. Open a [GitHub Issue](https://github.com/YOUR_USERNAME/runekit/issues/new) with:
+2. Find your log file (see path above)
+3. Open a [GitHub Issue](https://github.com/Jcapehart2/RuneKit-Reforged/issues/new) with:
    - What you were doing when it broke
    - Your distro and desktop environment (e.g., "Ubuntu 24.04, GNOME on X11")
    - Attach or paste your `runekit.log` file
@@ -222,19 +186,17 @@ Then open `chrome://inspect` in Chrome/Chromium to debug Alt1 apps.
 
 ---
 
-## Building from Source
-
-### AppImage (Linux)
+## Building an AppImage
 
 ```sh
 poetry run make dist/RuneKit.AppImage
 ```
 
-### macOS .app
+---
 
-```sh
-poetry run make dist/RuneKit.app.zip
-```
+## macOS Support (Experimental)
+
+The codebase includes macOS support inherited from the original RuneKit project, but it has **not been tested** after the Qt6 migration. If you're on macOS and want to try it, contributions and bug reports are welcome.
 
 ---
 
@@ -243,8 +205,7 @@ poetry run make dist/RuneKit.app.zip
 - **Python 3.11–3.14** with [Poetry](https://python-poetry.org) for dependency management
 - **PySide6 / Qt6** for the UI, web engine, and overlay system
 - **OpenCV** and **Pillow** for image processing (screen capture)
-- **xcffib** for X11 window detection (Linux)
-- **pyobjc** for Quartz window access (macOS)
+- **xcffib** for X11 window detection
 
 ---
 
@@ -253,4 +214,4 @@ poetry run make dist/RuneKit.app.zip
 This project is [licensed](LICENSE) under GPLv3, and contains code from [third parties](THIRD_PARTY_LICENSE.md).
 Contains code from the Alt1 application.
 
-Please do not contact Alt1 or RuneApps.org for support with RuneKit.
+Please do not contact Alt1 or RuneApps.org for support with RuneKit Reforged.
