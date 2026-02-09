@@ -44,6 +44,7 @@ def main(app_url, game_index, qt_args):
 
     QSettings.setDefaultFormat(QSettings.Format.IniFormat)
 
+    game_manager = None
     try:
         game_manager = get_platform_manager()
         host = Host(game_manager)
