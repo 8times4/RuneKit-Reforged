@@ -3,6 +3,8 @@ on: [push]
 jobs:
   bump:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Bump tag
         if: github.ref == 'refs/heads/main'

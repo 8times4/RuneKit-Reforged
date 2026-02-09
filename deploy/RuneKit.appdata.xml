@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-    <id>runekit</id>
-    <metadata_license>GPLv3</metadata_license>
-    <project_license>GPLv3</project_license>
-    <name>RuneKit</name>
+    <id>de.cupco.runekit</id>
+    <metadata_license>GPL-3.0-or-later</metadata_license>
+    <project_license>GPL-3.0-or-later</project_license>
+    <name>RuneKit Reforged</name>
+    <summary>Alt1-compatible toolkit for RuneScape 3 on Linux</summary>
     <description>
-        <p>Alt1-compatible toolbox for RuneScape 3</p>
+        <p>RuneKit Reforged lets you run Alt1 toolkit apps (clue solvers, XP meters, AFK timers, and more) alongside the official RuneScape 3 client on Linux. It works by reading your game screen through screenshots and does not modify the game client.</p>
     </description>
     <launchable type="desktop-id">RuneKit.desktop</launchable>
-    <url type="homepage">https://github.com/whs/runekit</url>
+    <url type="homepage">https://github.com/Jcapehart2/RuneKit-Reforged</url>
     <provides>
         <binary>runekit</binary>
         <python3>runekit</python3>
