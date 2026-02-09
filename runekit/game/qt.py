@@ -1,4 +1,6 @@
 import logging
+import os
+import tempfile
 import time
 
 import numpy as np
@@ -52,7 +54,7 @@ class QtGrabMixin(QtBaseMixin):
 
         if _debug_dump_file:
             logger.debug("dumping file")
-            np_save_image(image, "/tmp/qtshot.bmp")
+            np_save_image(image, os.path.join(tempfile.gettempdir(), "qtshot.bmp"))
 
         self.__game_last_image = image
         self.__game_last_grab = time.monotonic()
@@ -65,7 +67,7 @@ class QtGrabMixin(QtBaseMixin):
 
         if _debug_dump_file:
             logger.debug("dumping file")
-            np_save_image(image, "/tmp/qtshot.bmp")
+            np_save_image(image, os.path.join(tempfile.gettempdir(), "qtshot.bmp"))
 
         return image
 

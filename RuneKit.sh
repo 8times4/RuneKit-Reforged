@@ -32,4 +32,5 @@ if [ ! -f "runekit/_resources.py" ]; then
 fi
 
 echo "Starting RuneKit..."
+echo "Logs: ~/.config/cupco.de/RuneKit/logs/runekit.log"
 exec poetry run python main.py "$@"

@@ -1,5 +1,7 @@
 import io
 import logging
+import os
+import tempfile
 import time
 from typing import TYPE_CHECKING
 
@@ -43,8 +45,9 @@ def cgimageref_to_image(imgref) -> Image:
     out = Image.open(py_buf, formats=("TIFF",))
 
     if _debug_dump_file:
-        out.save("/tmp/game.bmp")
-        open("/tmp/native.xbm", "wb").write(py_buf.getbuffer())
+        out.save(os.path.join(tempfile.gettempdir(), "game.bmp"))
+        with open(os.path.join(tempfile.gettempdir(), "native.xbm"), "wb") as f:
+            f.write(py_buf.getbuffer())
 
     return out
 

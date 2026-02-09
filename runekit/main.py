@@ -1,10 +1,12 @@
 import logging
+import logging.handlers
+import os
 import signal
 import sys
 import traceback
 
 import click
-from PySide6.QtCore import QSettings, Qt, QTimer
+from PySide6.QtCore import QSettings, QStandardPaths, Qt, QTimer
 from PySide6.QtWidgets import (
     QApplication,
     QMessageBox,
@@ -16,6 +18,37 @@ from runekit.game import get_platform_manager
 from runekit.host import Host
 
 
+def setup_logging():
+    """Configure logging to both console and a rotating log file."""
+    log_dir = os.path.join(
+        QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppConfigLocation),
+        "logs",
+    )
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, "runekit.log")
+
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+
+    # Console: INFO and above
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(logging.Formatter("%(levelname)s:%(name)s:%(message)s"))
+    root_logger.addHandler(console_handler)
+
+    # File: DEBUG and above, rotating 3 x 1MB
+    file_handler = logging.handlers.RotatingFileHandler(
+        log_file, maxBytes=1_000_000, backupCount=3, encoding="utf-8"
+    )
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(
+        logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s")
+    )
+    root_logger.addHandler(file_handler)
+
+    logging.info("Log file: %s", log_file)
+
+
 @click.command(
     context_settings=dict(
         ignore_unknown_options=True,
@@ -25,7 +58,7 @@ from runekit.host import Host
 @click.argument("qt_args", nargs=-1, type=click.UNPROCESSED)
 @click.argument("app_url", required=False)
 def main(app_url, game_index, qt_args):
-    logging.basicConfig(level=logging.DEBUG)
+    setup_logging()
 
     logging.info("Starting QtWebEngine")
     browser.init()
